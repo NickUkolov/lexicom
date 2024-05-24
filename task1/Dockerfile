@@ -13,9 +13,14 @@ RUN addgroup --gid 1000 notroot && \
 
 RUN mkdir /opt/app
 
-COPY --chown=notroot:notroot . /opt/app
+COPY --chown=notroot:notroot ./ /opt/app
 
 USER notroot
 WORKDIR /opt/app
+RUN chmod +x /opt/app/entrypoint.sh
 
-CMD ["python", "./main.py"]
+ENV PYTHONPATH "${PYTHONPATH}:/app/"
+
+EXPOSE 8000
+
+CMD ["./entrypoint.sh"]
